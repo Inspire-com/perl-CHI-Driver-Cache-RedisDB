@@ -1,4 +1,6 @@
 Revision history for CHI-Driver-Cache-RedisDB
 
 {{$NEXT}}
+
+0.01  2017-07-12 10:20:48 UTC
         - Initial release

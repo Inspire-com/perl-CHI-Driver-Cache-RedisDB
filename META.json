@@ -51,6 +51,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/Inspire-com/perl-CHI-Driver-Cache-RedisDB/issues"
+      },
+      "homepage" : "https://github.com/Inspire-com/perl-CHI-Driver-Cache-RedisDB",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/Inspire-com/perl-CHI-Driver-Cache-RedisDB.git",
+         "web" : "https://github.com/Inspire-com/perl-CHI-Driver-Cache-RedisDB"
+      }
+   },
    "version" : "0.01",
    "x_serialization_backend" : "JSON::XS version 3.03"
 }
