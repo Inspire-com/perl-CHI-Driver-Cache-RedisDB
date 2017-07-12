@@ -1,8 +1,78 @@
 package CHI::Driver::Cache::RedisDB;
 
 use strict;
-use 5.008_005;
+use warnings;
+
 our $VERSION = '0.01';
+
+use Moo;
+extends 'CHI::Driver';
+
+use Cache::RedisDB;
+
+has 'namespace_set_key' => (
+    is      => 'ro',
+    default => sub { 'CHI-MANAGED-NAMESPACES' },
+);
+
+sub BUILD {
+    my ($self, $params) = @_;
+    Cache::RedisDB->redis->sadd($self->namespace_set_key, $self->namespace);
+    return;
+}
+
+sub fetch {
+    my ($self, $key) = @_;
+
+    return Cache::RedisDB->get($self->namespace, $key);
+}
+
+sub store {
+    my ($self, $key, $data, $expires_in) = @_;
+
+    my @to_set = ($self->namespace, $key, $data);
+    push @to_set, $expires_in if defined $expires_in;
+
+    return Cache::RedisDB->set(@to_set);
+}
+
+sub remove {
+    my ($self, $key) = @_;
+
+    return Cache::RedisDB->del($self->namespace, $key);
+}
+
+sub clear {
+    my ($self) = @_;
+
+    my @keys = $self->get_keys;
+
+    return (@keys) ? Cache::RedisDB->del($self->namespace, @keys) : 0;
+}
+
+sub get_keys {
+    my ($self) = @_;
+
+    return @{Cache::RedisDB->keys($self->namespace, '*')};
+}
+
+sub get_namespaces {
+    my ($self) = @_;
+
+    return @{Cache::RedisDB->redis->smembers($self->namespace_set_key)};
+
+}
+
+sub flush_all {
+    my ($self) = @_;
+
+    foreach my $ns ($self->get_namespaces) {
+        if (my @keys = @{Cache::RedisDB->keys($ns, '*')}) {
+            Cache::RedisDB->del($ns, @keys);
+        }
+    }
+    return Cache::RedisDB->redis->del($self->namespace_set_key);
+}
 
 1;
 __END__
@@ -11,15 +81,16 @@ __END__
 
 =head1 NAME
 
-CHI::Driver::Cache::RedisDB - Blah blah blah
+CHI::Driver::Cache::RedisDB - CHI Driver for Cache::RedisDB
 
 =head1 SYNOPSIS
 
-  use CHI::Driver::Cache::RedisDB;
+  CHI->new(driver => 'Cache::RedisDB');
 
 =head1 DESCRIPTION
 
-CHI::Driver::Cache::RedisDB is
+CHI::Driver::Cache::RedisDB is a simple wrapper around Cache::RedisDB
+to provide the common CHI interface.
 
 =head1 AUTHOR
 

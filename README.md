@@ -1,14 +1,15 @@
 # NAME
 
-CHI::Driver::Cache::RedisDB - Blah blah blah
+CHI::Driver::Cache::RedisDB - CHI Driver for Cache::RedisDB
 
 # SYNOPSIS
 
-    use CHI::Driver::Cache::RedisDB;
+    CHI->new(driver => 'Cache::RedisDB');
 
 # DESCRIPTION
 
-CHI::Driver::Cache::RedisDB is
+CHI::Driver::Cache::RedisDB is a simple wrapper around Cache::RedisDB
+to provide the common CHI interface.
 
 # AUTHOR
 

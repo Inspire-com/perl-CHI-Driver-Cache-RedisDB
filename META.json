@@ -1,5 +1,5 @@
 {
-   "abstract" : "Blah blah blah",
+   "abstract" : "CHI Driver for Cache::RedisDB",
    "author" : [
       "Matt Miller <matt@inspire.com>"
    ],
@@ -37,12 +37,16 @@
       },
       "runtime" : {
          "requires" : {
+            "CHI" : "0.60",
+            "Cache::RedisDB" : "0.12",
+            "Moo" : "2.003002",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.96"
+            "Test::Class" : "0.50",
+            "Test::Most" : "0.35"
          }
       }
    },
