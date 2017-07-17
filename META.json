@@ -46,7 +46,8 @@
       "test" : {
          "requires" : {
             "Test::Class" : "0.50",
-            "Test::Most" : "0.35"
+            "Test::Most" : "0.35",
+            "Test::RedisDB" : "2.35"
          }
       }
    },
